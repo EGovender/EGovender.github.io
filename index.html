@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style>
-
+h1{
+    font-family: 'Amatic SC', cursive;
+    font-weight: normal;
+    color: #14b3db;
+    font-size: 2.5em;
+}
 .country {
-  fill: #a8ddb5;
-  stroke: black;
-  stroke-width: 0.5px;
+  fill: #14b3db;
+  stroke: white;
+  stroke-width: 0.6px;
   stroke-linecap: round;
   stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
@@ -20,17 +25,15 @@
 }
 
 .bubble {
-	fill: #036;
-  stroke: #6cb0e0;
+	fill: #ffff30; stroke:#ffff7f;
   stroke-width: 0.5px;
   stroke-linecap: round;
   stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
 }
 .bubble1 {
-	fill: #036;
-  stroke: #6cb0e0;
-  stroke-width: 0.5px;
+  fill: #ffd907; stroke:#d8b429;
+  stroke-width: 1px;
   stroke-linecap: round;
   stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
@@ -38,10 +41,14 @@
 }
 .svg {
 	background: white;
+	margin-left:auto; 
+	margin-right:auto; 
+	display:block;
+	align: center;
 }
 
 .selected {
-	fill: yellow;
+	fill: #ffd907;
 }
 
 .states path {
@@ -63,24 +70,47 @@
 	  
 	  
 }
+.font-weight-bold {
+  font-weight: 700 !important;
+}
+.commodityButton {
+  font-family: 'Amatic SC', cursive;
+  font-color: black;
+  font-weight: 700;
+  color: #28a745;
+  border-color: #6f42c1;
+  cursor:pointer; font-family:Arial; font-size: 14px;
 
-.commodityButton, .commodityLabel, .port-label { 
+}
+
+.commodityButton:hover {
+  color: #fff;
+  background-color: #28a745;
+  border-color: #6f42c1;
+}
+
+.commodityLabel, .port-label  { 
+ font-family: 'Amatic SC', cursive;
    font-color: black;
-  cursor:pointer; font-family:Arial; font-size: 12px; 
+  cursor:pointer;  font-size: 1.2em;
+ 
 }
 
 .countryLabel { 
    font-color: black;
-  cursor:pointer; font-family:Arial; font-size: 12px; 
+    font-family: 'Amatic SC', cursive; font-size: 9px; 
 }
 
-.annotationLabel { 
-   font-color: black;
-  cursor:pointer; font-family:Arial; font-size: 9px; 
+.annotationButton, .annotationLabel { 
+  font-color: black;
+  background-color: white;
+  border-color:red;
+  cursor:pointer;  font-family: 'Amatic SC', cursive; font-size: 9px; 
 }
 
 
-.route { fill: none; stroke: #084081; stroke-width: 0.5px; }
+
+.route { fill: none; stroke: orangered; stroke-width: 0.8px; }
 .port { fill: #8c6bb1; stroke:#084081; stroke-width: 2px; }	
 .source-port { fill: #fdae6b; stroke:#d94801; stroke-width: 2px; }
 
@@ -88,41 +118,102 @@
   fill: #4B5358;   /* highlight colour for selected country */
 }
 
+div{
+	width:90%;
+	height:100%;
+}
 div.tooltip {   
   position: absolute;           
   text-align: center;           
   width: 100px;                  
   height: 60px;                 
-  padding: 4px;             
-  font: 12px sans-serif;        
+  padding: 4px;    
+  font-family: 'Amatic SC', cursive;  
+  font: 12px ;        
   background: white;   
   border: 0px;      
   border-radius: 5px;           
-  pointer-events: none;         
+  pointer-events: none;  
+  font-size: 1.2em;  
 }
 
+
+.nav-link {
+  display: block;
+  padding: 0.5rem 1rem;
+}
+
+.nav-link:focus, .nav-link:hover {
+  text-decoration: none;
+}
+
+.nav-link.disabled {
+  color: #868e96;
+}
+
+.commodityButton:hover {
+  stroke: #000;
+  stroke-width: 1.5px;
+  fill: #ffd907;
+  background-color: #e2e6ea;
+  border-color: #dae0e5;
+}
+
+div.category {
+    -moz-border-radius: 8px;
+    display: block;
+    background: #fff2cf;
+    overflow: hidden;
+    width: 300px;
+    text-align:left;
+    border:1px dashed blue;
+	align: left; 
+	 font-size: 1.5em;  
+	 line-height: 1.5;
+	  font-family: 'Amatic SC', cursive;  
+	  padding: 5px; 
+}
 </style>
-<body>
+<body align="centre">
 <script src="//d3js.org/d3.v4.min.js" charset="utf-8"></script>
 <script src="//d3js.org/topojson.v1.min.js"></script>
-<div id="map"></div>
+<div align="center">
+	<div align="center"><h1>US Visa Applications</h1></div>
+	<div align="center">
+		<input class="nav-link" type="button" name="b1" value="Next" onclick="location.href='http://localhost:8080/barchart.html'">
+	</div>
+</div> 
+<table width="100%" align="centre" valign="top">
+	<tr>
+		<td width="75%" align="centre" >
+			<div  align="centre">
+			<svg  align="centre" id='map' class='svg'></svg>
+			</div>
+		</td>
+		 <td><div class="category">These are the top 20 countries were visa applicants originate from. <br> Select a country to view their top destinatations in the US.</div>
+		 </td>
+	</tr>
+</table>
+ 
+
+
 <script>
 
 var margin = {top:10, left:10, right: 10, bottom:10},
-	height =400-margin.top-margin.bottom,
-	width=	800-margin.left-margin.right,
+	height = 1000-margin.top-margin.bottom,
+	width=	1300-margin.left-margin.right,
     active = d3.select(null);
 
  
-var sf = [-18.484246 ,69.0119];
+var sf = [-100.484246 ,-250.0119];
 
 var zoom = d3.zoom()
     .scaleExtent([1, 1])
     .on("zoom", zoomed);
 
 var projection = d3.geoMercator()
-	.translate([width, height ])
-	.scale(280)
+	.translate([width/2, height/2 ])
+	.scale(150)
 	
 var sfx =projection(sf)[0];	
 var sfy =projection(sf)[1];	
@@ -132,6 +223,7 @@ var svg = d3.select("#map")
 			.attr("height", height+margin.top+margin.bottom)
 			.attr("width", width+margin.left+margin.right)
 			.attr("class","svg")
+
 			.append('g')
 			.attr("transform","translate(" + margin.left + "," + margin.top + ")");
 			
@@ -142,11 +234,36 @@ var svg = d3.select("#map")
 var g1 = svg.append("g"); 
 var g2 = svg.append("g"); 
 var g3 = svg.append("g"); 
+var g4 = svg.append("g"); 
+var g5 = svg.append("g");
+var g6 = svg.append("g");
+var defs = svg.append("defs");
+
+var gradient = defs.append("linearGradient")
+   .attr("id", "svgGradient")
+   .attr("x1", "0%")
+   .attr("x2", "100%")
+   .attr("y1", "0%")
+   .attr("y2", "100%");
+
+gradient.append("stop")
+   .attr('class', 'start')
+   .attr("offset", "0%")
+   .attr("stop-color", "red")
+   .attr("stop-opacity", 1);
+
+gradient.append("stop")
+   .attr('class', 'end')
+   .attr("offset", "100%")
+   .attr("stop-color", "blue")
+   .attr("stop-opacity", 1);
+
+   
 svg.call(zoom); 
 
 d3.queue()
   .defer(d3.json,"world-countries.topojson")
-  .defer(d3.csv,"top20.csv")
+  .defer(d3.csv,"CSV/top20.csv")
   .await(ready)
 
 
@@ -157,7 +274,11 @@ var div = d3.select("body").append("div")
     .attr("class", "tooltip")               
     .style("opacity", 0);
 
+	var info = g6.selectAll("div").append("div")   
+    .attr("class", "tooltip")               
+    .style("opacity", 1);
 
+	info.append("text").attr("text","asdasdadasd");
 function clicked(d) {
 
   if (active.node() === this) return reset();
@@ -185,7 +306,7 @@ function reset() {
   svg.transition()
       .duration(750)
       // .call( zoom.transform, d3.zoomIdentity.translate(0, 0).scale(1) ); // not in d3 v4
-      .call( zoom.transform, d3.zoomIdentity.translate(0,0).scale(1)); // updated for d3 v4
+      .call( zoom.transform, d3.zoomIdentity.translate(0,0).scale(2.5)); // updated for d3 v4
 }
 
 function zoomed() {
@@ -204,27 +325,22 @@ function ready(error, data, paths){
 	
 	var countries=topojson.feature(data,data.objects.countries1).features;
  	
-	var commodities = ["INDIA","CHINA","SOUTH KOREA","CANADA","MEXICO","PHILIPPINES","UNITED KINGDOM","TAIWAN","PAKISTAN","FRANCE","NEPAL","JAPAN","BRAZIL","VENEZUELA","TURKEY","RUSSIA","GERMANY","IRAN","VIETNAM","ITALY"];
+	var commodities = ["PAKISTAN","FRANCE","NEPAL","JAPAN","BRAZIL","VENEZUELA","TURKEY","RUSSIA"]
+	var commodities2 = ["INDIA","CHINA","S-KOREA","CANADA","MEXICO","PHILIPPINES","UK","TAIWAN"];
+	var commodities3 = ["GERMANY","IRAN","VIETNAM","ITALY"]
  	g1.selectAll(".country")
 		.data(countries)
 		.enter().append("path")
 		.attr("class", "country")
 		.attr("d",path)
 		.attr("id",function(d) { return (d.properties.name.toUpperCase()); })
-		<!-- .on('mouseover',function(d){ -->
-			<!-- d3.select(this).classed("selected",true) -->
-		<!-- }) -->
-		<!-- .on('mouseout',function(d){ -->
-			<!-- d3.select(this).classed("selected",false) -->
-		<!-- }) -->
 		.on("click", clicked)
-		
 		;
 		
 	d3.select("#ANTARCTICA").remove()
 			 
-	var bubbles = g2.selectAll("circle").data(paths).enter().append("circle")
-		.attr("r",2)
+	g2.selectAll("circle").data(paths).enter().append("circle")
+		.attr("r",3)
 		.attr("cx", function(d){
 			var coords = projection([d.COC_Long,d.COC_Lat]) 
 			return coords[0];
@@ -233,48 +349,98 @@ function ready(error, data, paths){
 			var coords = projection([d.COC_Long,d.COC_Lat]) 
 			return coords[1];
 		})
-		.attr("class","source-port source");		
+		.attr("class","source-port source")
+		.style('opacity',1);		
 		
 		
-		var text2=g2.selectAll("text").data(paths).enter().append("text")
-			.attr("x",function(d){
-			var coords = projection([d.COC_Long,d.COC_Lat]) 
-			return coords[0]+15+'px';
-		} )
-			.attr("y",function(d){
-			var coords = projection([d.COC_Long,d.COC_Lat]) 
-			return coords[1]+15+'px';
-		} )
-			.attr("text-anchor","middle")
-			.text(function(d) { return d.Country; })
-			.attr("class","countryLabel");
-
+	g2.selectAll("text").data(paths).enter().append("text")
+		.attr("x",function(d){
+		var coords = projection([d.COC_Long,d.COC_Lat]) 
+		return coords[0]+15;} )
+		.attr("y",function(d){
+		var coords = projection([d.COC_Long,d.COC_Lat]) 
+		return coords[1]+15;} )
+		.attr("text-anchor","middle")
+		.text(function(d) { return d.Country; })
+		.attr("class","countryLabel")
+		.style('opacity',1);
+		
 		// Add some buttons
-		var buttons = g3.selectAll(".commodityButton")
-			.data(commodities)
-			.enter()
-			.append("rect")
-			.attr("x", function(d,i) { return i * 120 + 50} )
-			.attr("y", 20)
-			.attr("rx",5).attr("ry",5).attr("width",110).attr("height",40)
-			.attr("fill","#aaa").attr("stroke","#999")
-			.attr("class","commodityButton")
-			.on("click",function(d) {clicked;replaceCountry(d);})
-			;
+	g3.selectAll(".commodityButton")
+		.data(commodities2)
+		.enter()
+		.append("rect")
+		.attr("x", function(d,i) { return i * 140 + 90} )
+		.attr("y", 10)
+		.attr("rx",5).attr("ry",5).attr("width",130).attr("height",50)
+		.attr("fill","#e2e6ea").attr("stroke","#999")
+		.attr("class","commodityButton")
+		.on("click",function(d) {clicked;replaceCountry(d);})
+		;
 				
-		var text = g3.selectAll(".commodityLabel")
-			.data(commodities).enter()
-			.append("text")
-			.attr("x",function (d,i) { return i * 120 + 100} )
-			.attr("y",45)
-			.attr("text-anchor","middle")
-			.text(function(d) { return d; })
-			.attr("class","commodityLabel")
-			.on("click",reset())
-			.on("click",function(d) { replaceCountry(d);  });
-		// Start with a set of routes
-		drawCountry("INDIA");
+	g3.selectAll(".commodityLabel")
+		.data(commodities2).enter()
+		.append("text")
+		.attr("x",function (d,i) { return i * 140 + 155} )
+		.attr("y",45)
+		.attr("text-anchor","middle")
+		.text(function(d) { return d; })
+		.attr("class","commodityLabel")
+		.on("click",reset())
+		.on("click",function(d) { replaceCountry(d);  });
 		
+		//2 Add some buttons
+	g4.selectAll(".commodityButton")
+		.data(commodities)
+		.enter()
+		.append("rect")
+		.attr("x", function(d,i) { return i * 140 + 90} )
+		.attr("y", 70)
+		.attr("rx",5).attr("ry",5).attr("width",130).attr("height",50)
+		.attr("fill","#e2e6ea").attr("stroke","#999")
+		.attr("class","commodityButton")
+		.on("click",function(d) {clicked;replaceCountry(d);})
+		;
+				
+	g4.selectAll(".commodityLabel")
+		.data(commodities).enter()
+		.append("text")
+		.attr("x",function (d,i) { return i * 140 + 155} )
+		.attr("y",100)
+		.attr("text-anchor","middle")
+		.text(function(d) { return d; })
+		.attr("class","commodityLabel")
+		.on("click",reset())
+		.on("click",function(d) { replaceCountry(d);  });	
+	// Start with a set of routes
+	
+	g5.selectAll(".commodityButton")
+		.data(commodities3)
+		.enter()
+		.append("rect")
+		.attr("x", function(d,i) { return i * 140 + 90} )
+		.attr("y", 130)
+		.attr("rx",5).attr("ry",5).attr("width",130).attr("height",50)
+		.attr("fill","#e2e6ea")
+		.attr("stroke","#999")
+		.attr("class","commodityButton")
+ 
+		.on("click",function(d) {clicked;replaceCountry(d);})
+		;
+				
+	g5.selectAll(".commodityLabel")
+		.data(commodities3).enter()
+		.append("text")
+		.attr("x",function (d,i) { return i * 140 + 155} )
+		.attr("y",160)
+		.attr("text-anchor","middle")
+		.text(function(d) { return d; })
+		.attr("class","commodityLabel")
+		.on("click",reset())
+		.on("click",function(d) { replaceCountry(d);  });	
+	// Start with a set of routes
+	drawCountry("INDIA");
+	
 }
 
 // Draw a set of routes 
@@ -288,10 +454,14 @@ function drawCountry(country) {
 			d3.select('#'+ previousSelected).classed('selected',false);
 			d3.select('#'+country).classed('selected',true);
 			previousSelected=country
+		
+			
 			d3.csv(country + ".csv", function (error, routes) {
 			//var maxVolume = d3.max(routes, function(d) { return d.Count; });		
 			//var line = d3.line().curve(d3.curveBasis);
 			 
+			
+ 
 			var TotalCount =0;
 			routes.forEach( function(d){
 				TotalCount=TotalCount+Number(d.Count);
@@ -312,8 +482,10 @@ function drawCountry(country) {
 					.attr("stroke-dasharray", totalLength + " " + totalLength)
 					.attr("stroke-dashoffset", -totalLength)
 					.transition()
-					.duration(2500)
-					.attr("stroke-dashoffset", 0);
+					.duration(3000)
+					.attr("stroke-dashoffset", 0)
+					;
+
 			});
 			
 			
@@ -332,7 +504,7 @@ function drawCountry(country) {
 							div.transition()        
 								.duration(200)      
 								.style("opacity", .9);      
-							div .html("Destination City: <b>" + d.City +"</b><br>Application Count: <b>"+ d.Count+ "</b>")  
+							div.html("Destination City: <b>" + d.City +"</b><br>Application Count: <b>"+ d.Count+ "</b>")  
 								.style("left", (d3.event.pageX) + "px")     
 								.style("top", (d3.event.pageY - 28) + "px");    
 							})                  
@@ -350,74 +522,156 @@ function drawCountry(country) {
 					.duration(2000)
 					.style('opacity', 1);
 					
+				var elementHeight =	50;
+				var elementWidth =110;	
 				var annotationlines = g1.selectAll(".line")
 					.data(routes)
 					.enter()
 					.append("line")
+					.style('opacity',0)
 					.attr("x1", function(d){
 						var coords = projection([d.Long,d.Lat]) 
-						if (Number(d.Long) < -100) {return coords[0]-40;}
-						else {return coords[0]+50;}} )
+						return coords[0];})
+						
 					.attr("y1", function(d){
 						var coords = projection([d.Long,d.Lat]) 
-						return coords[1]+50;
-					} )
+						return coords[1];
+					})
 					.attr("x2", function(d){
-						var coords = projection([d.Long,d.Lat]) 
-						return coords[0];
-					} )
+						var coords = projection([-100,d.Lat]) 
+						if (Number(d.Long) < -100){return coords[0]-240+elementWidth/2;} else {return coords[0]+180+elementWidth/2;}} )
 					.attr("y2", function(d){
-						var coords = projection([d.Long,d.Lat]) 
-						return coords[1]; 
+						var coords = projection([d.Long,70]) 
+						return coords[1]+(d.CityRank*(elementHeight+10))+30+elementHeight/2;
+						
 					} )
-					.attr("stroke-width", 1)
-					.attr("stroke", "tomato")
-					.attr("stroke-dasharray", 90)
+					.attr("stroke-width", 1.5)
+					//.attr("stroke", "tomato")
+					.attr("stroke-dasharray", 200)
 					.attr("stroke-dashoffset",0 )
+					.attr("stroke", "url(#svgGradient)")
+					.attr("fill", "none")
+					.transition()
+					.delay(6000)
+					.duration(2000)
 					.style('opacity',function(d){if (d.CityRank > 3){return 0} else {return 1};})
 					;
 					
-				var annotations = g1.selectAll(".commodityButton")
+				var annotations = g1.selectAll(".annotationButton")
 					.data(routes)
 					.enter()
 					.append("rect")
+					.attr("class","annotationButton")
+					.style('opacity',0)
 					.attr("x", function(d){
-						var coords = projection([d.Long,d.Lat]) 
-						if (Number(d.Long) < -100) {return coords[0]-80;}
-						else {return coords[0]+50;}
+						var coords = projection([-100,d.Lat]) 
+						if (Number(d.Long) < -100){return coords[0]-240;} else {return coords[0]+180;}} )
+					.attr("y", function(d){
+						var coords = projection([d.Long,70]) 
+						return coords[1]+(d.CityRank*(elementHeight+10))+30;
 						
 					} )
-					.attr("y", function(d){
-						var coords = projection([d.Long,d.Lat]) 
-						return coords[1]+50;
-					} )
-					.attr("rx",5).attr("ry",5).attr("width",60).attr("height",40)
-					.attr("fill","#aaa").attr("stroke","#999")
-					.attr("class","commodityButton")
+					.attr("rx",5).attr("ry",5).attr("width",elementWidth).attr("height",elementHeight)
+					.attr("fill","#fff2cf")
+
+					.attr("stroke","red")
+					.attr("stroke-width","1px")
+					
+					.transition()
+					.delay(5000)
+					.duration(2000)
 					.style('opacity',function(d){if (d.CityRank > 3){return 0} else {return 1};})
 					;
 					
 				var annotationtext = g1.selectAll(".annotationLabel")
 					.data(routes).enter()
 					.append("text")
-				
-					.attr("dy", "0em")
-					.text(function(d) { return "City Rank: " +d.CityRank ;}) 
-					.style('opacity',function(d){if (d.CityRank > 3){return 0} else {return 1};})
-					.attr("x",function(d){
-						var coords = projection([d.Long,d.Lat]) 
-						if (Number(d.Long) < -100) {return coords[0]-70;}
-						else {return coords[0]+60;} })
-					.attr("y",function(d){
-						var coords = projection([d.Long,d.Lat]) 
-						return coords[1]+65;})
-					.attr("text-anchor","middle")
-					.append("text")
-					.attr("dy", "1em")
-					.text( function(d){"Application Count: " + d.Count; })
+					.style('opacity',0)
 					.attr("class","annotationLabel")
-					.style('opacity',function(d){if (d.CityRank > 3){return 0} else {return 1};})
-					;	
+					.attr("dy", ".35em")
+					.text(function(d) { 
+						return d.City + " is ranked";
+					}) 
+					
+					.attr("x", function(d){
+						var coords = projection([-100,d.Lat]) 
+						if (Number(d.Long) < -100){return coords[0]-240+5;} else {return coords[0]+180+5;}} )
+					.attr("y", function(d){
+						var coords = projection([d.Long,70]) 
+						return coords[1]+(d.CityRank*(elementHeight+10))+30+10;
+						
+					} )
+					.transition()
+					.delay(5000)
+					.duration(2000)
+					.style('opacity',function(d){if (d.CityRank > 3){return 0} else {return 1};});
+					
+				g1.selectAll(".annotationLabel")
+					.data(routes, function(d) { return d; }).enter()
+					.append("text")
+					.style('opacity',0)
+					.attr("class","annotationLabel")
+					.attr("dy", ".35em")
+					.attr('text-anchor', 'left')
+					.text(function(d){if (d.CityRank==1) {return "the 1st most popular";} 
+						if (d.CityRank == 2) {return  "the 2nd most popular";}
+						if (d.CityRank==3) {return  "the 3rd most popular";}
+						else
+							{return "";}})
+					.attr("x", function(d){
+						var coords = projection([-100,d.Lat]) 
+						if (Number(d.Long) < -100){return coords[0]-240+5;} else {return coords[0]+180+5;}} )
+					.attr("y", function(d){
+						var coords = projection([d.Long,70]) 
+						return coords[1]+(d.CityRank*(elementHeight+10))+30+10+10;
+						
+					} )
+					.transition()
+					.delay(5000)
+					.duration(2000)
+					.style('opacity',function(d){if (d.CityRank > 3){return 0} else {return 1};});	
+				
+				g1.selectAll(".annotationLabel")
+					.data(routes, function(d) { return d; }).enter()
+					.append("text")
+					.style('opacity',0)
+					.attr("class","annotationLabel")
+					.attr("dy", ".35em")
+					.attr('text-anchor', 'left')
+					.text(function(d){return "destination for applicants";})
+					.attr("x", function(d){
+						var coords = projection([-100,d.Lat]) 
+						if (Number(d.Long) < -100){return coords[0]-240+5;} else {return coords[0]+180+5;}} )
+					.attr("y", function(d){
+						var coords = projection([d.Long,70]) 
+						return coords[1]+(d.CityRank*(elementHeight+10))+30+10+20;
+						
+					} )
+					.transition()
+					.delay(5000)
+					.duration(2000)
+					.style('opacity',function(d){if (d.CityRank > 3){return 0} else {return 1};});	
+				
+				g1.selectAll(".annotationLabel")
+					.data(routes, function(d) { return d; }).enter()
+					.append("text")
+					.style('opacity',0)
+					.attr("class","annotationLabel")
+					.attr("dy", ".35em")
+					.attr('text-anchor', 'left')
+					.text(function(d){return "from "+country+".";})
+					.attr("x", function(d){
+						var coords = projection([-100,d.Lat]) 
+						if (Number(d.Long) < -100){return coords[0]-240+5;} else {return coords[0]+180+5;}} )
+					.attr("y", function(d){
+						var coords = projection([d.Long,70]) 
+						return coords[1]+(d.CityRank*(elementHeight+10))+30+10+30;
+						
+					} )
+					.transition()
+					.delay(5000)
+					.duration(2000)
+					.style('opacity',function(d){if (d.CityRank > 3){return 0} else {return 1};});	
 					
 				g1.selectAll(".route")
 					.transition()
@@ -433,13 +687,10 @@ function drawCountry(country) {
 					svg.transition()
 					  .delay(3000)
 					  .duration(4000)
-					  .call( zoom.transform, d3.zoomIdentity.translate(sf[0],sf[1]).scale(2.5) ); // updated for d3 v4
-					  
-			 		  
-					  
+					  .call( zoom.transform, d3.zoomIdentity.translate(sf[0],sf[1]).scale(2) ); // updated for d3 v4
 		});
 
-		
+		arrangeLabels();
 	}	
 	
 // Replace a commodity			
@@ -450,7 +701,7 @@ function replaceCountry(country) {
 		d3.selectAll(".bubble1").remove();
 		d3.selectAll("line").remove();
 		d3.selectAll(".annotationLabel").remove();
-		d3.selectAll(".commodityButton").remove();
+		d3.selectAll(".annotationButton").remove();
 		
 		
 		var routes = g1.selectAll(".route")
@@ -531,5 +782,41 @@ function lngLatToArc(d, sourceLngLat, targetLngLat, bend){
 		}
 }
 
+function arrangeLabels() {
+  var move = 1;
+  while(move > 0) {
+    move = 0;
+	console.log("hi1");
+    g1.selectAll(".annotationLabel")
+       .each(function() {
+		console.log("hi");
+         var that = this,
+             a = this.getBoundingClientRect();
+         g1.selectAll(".annotationLabel")
+            .each(function() {
+              if(this != that) {
+                var b = this.getBoundingClientRect();
+                if((Math.abs(a.left - b.left) * 2 < (a.width + b.width)) &&
+                   (Math.abs(a.top - b.top) * 2 < (a.height + b.height))) {
+                  // overlap, move labels
+                  var dx = (Math.max(0, a.right - b.left) +
+                           Math.min(0, a.left - b.right)) * 0.01,
+                      dy = (Math.max(0, a.bottom - b.top) +
+                           Math.min(0, a.top - b.bottom)) * 0.02,
+                      tt = d3.transform(d3.select(this).attr("transform")),
+                      to = d3.transform(d3.select(that).attr("transform"));
+                  move += Math.abs(dx) + Math.abs(dy);
+                
+                  to.translate = [ to.translate[0] + dx, to.translate[1] + dy ];
+                  tt.translate = [ tt.translate[0] - dx, tt.translate[1] - dy ];
+                  d3.select(this).attr("transform", "translate(" + tt.translate + ")");
+                  d3.select(that).attr("transform", "translate(" + to.translate + ")");
+                  a = this.getBoundingClientRect();
+                }
+              }
+            });
+       });
+  }
+}
 	
 </script>

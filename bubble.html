@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+h1{
+    font-family: 'Amatic SC', cursive;
+    font-weight: normal;
+    color: #14b3db;
+    font-size: 2.5em;
+}
+
+body {
+   font-family: 'Amatic SC', cursive;
+   font-size: 0.8em;
+}
+.node {
+  cursor: pointer;
+   
+}
+div.tooltip {   
+  position: absolute;           
+  text-align: center;           
+  width: 100px;                  
+  height: 60px;                 
+  padding: 4px; 
+ font-family: 'Amatic SC', cursive;  
+  font: 10px;        
+  background: white;   
+  border: 1px;    
+ border: 1px solid #999;   
+  border-radius: 3px;           
+  pointer-events: none;         
+}
+.node:hover {
+  stroke: #000;
+  stroke-width: 1.1px;
+}
+
+.node--leaf {
+  fill: white;
+}
+
+.label {
+  font: 11px Arial, sans-serif;
+   font-family: 'Amatic SC', cursive;
+  text-anchor: middle;
+  
+   
+}
+
+.label,
+.node--root,
+.node--leaf {
+  pointer-events: none;
+}
+
+
+.commodityButton {
+  font-color: black;
+  color: #28a745;
+  border-color: #e2e6ea;
+  cursor:pointer; font-family:Arial; font-size: 12px;
+
+}
+
+.commodityLabel, .port-label  { 
+   font-color: black;
+  cursor:pointer; font-family:Arial; font-size: 12px;
+ 
+}
+.commodityButton:hover {
+  stroke: #000;
+  stroke-width: 1.5px;
+  color: #111;
+  background-color: #e2e6ea;
+  border-color: #dae0e5;
+}
+
+div{
+	width:90%;
+	height:100%;
+}
+
+.nav-link {
+  display: block;
+  padding: 0.5rem 1rem;
+}
+
+.nav-link:focus, .nav-link:hover {
+  text-decoration: none;
+}
+
+.nav-link.disabled {
+  color: #868e96;
+}
+
+
+ 
+select
+  {
+  margin: 0;
+  font-family: inherit;
+  font-size: 1.1em;
+  line-height: inherit;
+}
+</style>
+<body>
+<div align="center">
+	<div align="center"><h1>US Visa Applications</h1></div>
+	<div>
+		<table align="centre" width ="100%">
+			<tr><td width="100%" align ="center"><input class="nav-link" type="button" name="b1" value=" < Previous" onclick="location.href='http://localhost:8080/barchart.html'">
+			    </td>
+			 </tr>
+			<tr>
+				<td  width="100%" align ="center"><div style="font-size: 1.5em;" >Select a state and delve deeper <select id="environment" name="environment" class ="select" action="/"></select></div>	
+					</td></div>
+			</tr>
+		</table>
+		</table>
+</div>
+
+<table >
+	<tr align ="top"><td><svg width="700" height="700"></svg></td><td align ="top">
+	</td></tr>
+</table>
+
+
+	
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+var states = ['All','Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Puerto Rico','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virgin Islands','Virginia','Washington','Washington DC','West Virginia','Wisconsin','Wyoming'];
+var select= d3.select(".select")
+
+select.on("change",	function(d) { getState(this.value);  })	 
+var t=select.selectAll("option").data(states).enter().append("option")
+	.attr("value",function(d){return d})
+	.text(function(d){return d});
+
+var svg = d3.select("svg"),
+    margin = 20,
+    diameter = +svg.attr("width");
+  
+var g1 = svg.append("g")	
+var g2 = svg.append("g")	
+var g =  svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
+
+
+  
+var color = d3.scaleLinear()
+    .domain([-1, 5])
+    .range(["hsl(152,80%,80%)", "hsl(228,30%,40%)"])
+    .interpolate(d3.interpolateHcl);
+
+var pack = d3.pack()
+    .size([diameter - margin, diameter - margin])
+    .padding(2);
+
+var insertLinebreaks = function (d) {
+	var el = d3.select(this);
+	
+		var words = d.data.name.split(" ")
+		
+	
+	el.text('');
+
+	for (var i = 0; i < words.length; i++) {
+		var tspan = el.append('tspan').text(words[i]);
+		if (i > 0)
+			tspan.attr('x', -0).attr('dy', '11');
+			tspan.style("font-size", "1.1em");
+	}
+};
+
+	
+var div = d3.select("body").append("div")   
+    .attr("class", "tooltip")               
+    .style("opacity", 0);
+
+var root;
+
+var simulation = d3.forceSimulation(nodes)
+    .force("charge", d3.forceManyBody())
+    .force("link", d3.forceLink(links))
+    .force("center", d3.forceCenter());
+	
+	
+function getState(s){
+	console.log("Json/"+s+".json");
+	g.selectAll("circle,text,tspan").remove();
+	d3.json("/Json/"+s.replace(" ","")+".json", function(error, root) {
+	  if (error) throw error;
+
+	  root = d3.hierarchy(root)
+		  .sum(function(d) { return d.size; })
+		  .sort(function(a, b) { return b.value - a.value; });
+
+	  var focus = root,
+		  nodes = pack(root).descendants(),
+		  view;
+
+	  var circle = g.selectAll("circle")
+		.data(nodes)
+		.enter().append("circle")
+		  .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
+		  .style("fill", function(d) { return d.children ? color(d.depth) : null; })
+		  .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); })
+		  .on("mouseover", function(d) {
+							
+						    if (d.depth==3){
+								div.style("opacity", .9);      
+								div.html("Destination State: <b>" + d.data.name +"</b><br>Application Count: <b>"+ d.data.size+ "</b>")  
+									.style("left", (d3.event.pageX) + "px")     
+									.style("top", (d3.event.pageY - 28) + "px"); }									
+							})                  
+		  .on("mouseout", function(d) { 
+					  
+						div.style("opacity", 0);   
+					
+			});
+			
+	  var text = g.selectAll("text")
+		.data(nodes)
+		.enter().append("text")
+		  .attr("class", "label")
+		  .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
+		  .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
+		  .text(function(d) {return d.data.name;})
+		  ;
+
+	  g.selectAll('text').each(insertLinebreaks);  
+		
+	  var node = g.selectAll("circle,text");
+
+	  svg
+		  .style("background", color(-1))
+		  .on("click", function() { zoom(root); });
+
+	  zoomTo([root.x, root.y, root.r * 2 + margin]);
+
+	  function zoom(d) {
+		var focus0 = focus; focus = d;
+
+		var transition = d3.transition()
+			.duration(d3.event.altKey ? 7500 : 750)
+			.tween("zoom", function(d) {
+			  var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
+			  return function(t) { zoomTo(i(t)); };
+			});
+
+		transition.selectAll("text")
+		  .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+			.style("fill-opacity", function(d) { return d.parent === focus ? 1 : 0; })
+			.on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+			.on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+	  }
+
+	  function zoomTo(v) {
+		var k = diameter / v[2]; view = v;
+		node.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
+		circle.attr("r", function(d) { return d.r * k; });
+	  }
+	});
+};
+</script>
+ </body>
