@@ -106,7 +106,7 @@ div{
 	</td></tr>
 </table>
 
-<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/d3.v4.min.js"></script>
 <script>
 
 var margin = {top: 40, right: 20, bottom: 30, left: 40},
@@ -118,20 +118,15 @@ var svg = d3.select("svg").append("g")
 	
 var formatPercent = d3.format(".0%");
 
-	
-var x = d3.scale.ordinal()
-    .rangeRoundBands([0, width], .1);
+var x=d3.scaleBand()
+    .rangeRound([0, width]);	
 
-var y = d3.scale.linear()
+var y = d3.scaleLinear()
     .range([height, 0]);
 
-var xAxis = d3.svg.axis()
-    .scale(x)
-    .orient("bottom");
+var xAxis =  d3.axisBottom(x);
 
-var yAxis = d3.svg.axis()
-    .scale(y)
-    .orient("left")
+var yAxis = d3.axisLeft(y)
     .tickFormat(formatPercent);
 
 
@@ -225,7 +220,7 @@ d3.csv("top20states.csv", function (error, data){
     .enter().append("rect")
       .attr("class", "bar")
       .attr("x", function(d) { return x(d.State); })
-      .attr("width", x.rangeBand())
+      .attr("width", 40)
       .attr("y", function(d) { return y(d.Percentage/100); })
       .attr("height", function(d) { return height - y(d.Percentage/100); })
       .on("mouseover", function(d) {      
