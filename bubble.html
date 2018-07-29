@@ -4,10 +4,15 @@
 h1{
     font-family: 'Amatic SC', cursive;
     font-weight: normal;
-    color: #14b3db;
-    font-size: 2.5em;
+    color: white;
+    font-size: 3.5em;
 }
-
+h2{
+    font-family: 'Amatic SC', cursive;
+    font-weight: normal;
+    color: Black;
+    font-size: 2.2em;
+}
 body {
    font-family: 'Amatic SC', cursive;
    font-size: 0.8em;
@@ -102,24 +107,28 @@ select
   font-size: 1.1em;
   line-height: inherit;
 }
+div{
+	width:100%;
+	height:100%;
+}
 </style>
 <body>
 <div align="center">
-	<div align="center"><h1>US Visa Applications</h1></div>
-	<div>
-		<table align="centre" width ="100%">
-			<tr><td width="100%" align ="center"><input class="nav-link" type="button" name="b1" value=" < Previous" onclick="location.href='http://localhost:8080/barchart.html'">
-			    </td>
-			 </tr>
+	<div align="center" style="background-color:#32aeb3;"><h1>US Visa Applications</h1></div>
+	<div align="center" valign="top">
+		<table valign="top">
 			<tr>
-				<td  width="100%" align ="center"><div style="font-size: 1.5em;" >Select a state and delve deeper <select id="environment" name="environment" class ="select" action="/"></select></div>	
-					</td></div>
+				<td><input class="nav-link" type="button" name="b1" value="Slide 1" onclick="location.href='http://localhost:8080/newmap.html'"></td>
+				<td><input class="nav-link" type="button" name="b2" value="Slide 2" onclick="location.href='http://localhost:8080/barchart.html'"></td>
+				<td><input class="nav-link" type="button" name="b3" value="Slide 3"  disabled="true" onclick="location.href='http://localhost:8080/bubble.html'"></td>
 			</tr>
+			
 		</table>
-		</table>
-</div>
-
-<table >
+	</div>
+</div> 
+<div align="center"><h2>Deep Dive into Job Categories per State</div>
+<div align="center" style="font-size: 1.5em;" >Select a state and delve deeper <select id="environment" name="environment" class ="select" action="/"></select></div>
+<table align="center">
 	<tr align ="top"><td><svg width="700" height="700"></svg></td><td align ="top">
 	</td></tr>
 </table>
@@ -179,10 +188,6 @@ var div = d3.select("body").append("div")
 
 var root;
 
-var simulation = d3.forceSimulation(nodes)
-    .force("charge", d3.forceManyBody())
-    .force("link", d3.forceLink(links))
-    .force("center", d3.forceCenter());
 	
 	
 function getState(s){

@@ -4,11 +4,21 @@
 h1{
     font-family: 'Amatic SC', cursive;
     font-weight: normal;
-    color: #14b3db;
-    font-size: 2.5em;
+    color: white;
+    font-size: 3.5em;
+}
+h2{
+    font-family: 'Amatic SC', cursive;
+    font-weight: normal;
+    color: Black;
+    font-size: 2.2em;
+}
+body {
+   font-family: 'Amatic SC', cursive;
+   font-size: 0.8em;
 }
 .country {
-  fill: #14b3db;
+  fill: #32aeb3;
   stroke: white;
   stroke-width: 0.6px;
   stroke-linecap: round;
@@ -119,14 +129,14 @@ h1{
 }
 
 div{
-	width:90%;
+	width:100%;
 	height:100%;
 }
 div.tooltip {   
   position: absolute;           
   text-align: center;           
   width: 100px;                  
-  height: 60px;                 
+  height: 100px;                 
   padding: 4px;    
   font-family: 'Amatic SC', cursive;  
   font: 12px ;        
@@ -162,7 +172,7 @@ div.tooltip {
 div.category {
     -moz-border-radius: 8px;
     display: block;
-    background: #fff2cf;
+    background: white;
     overflow: hidden;
     width: 300px;
     text-align:left;
@@ -176,21 +186,32 @@ div.category {
 </style>
 <body align="centre">
 <script src="//d3js.org/d3.v4.min.js" charset="utf-8"></script>
-<script src="//d3js.org/topojson.v1.min.js"></script>
+
 <div align="center">
-	<div align="center"><h1>US Visa Applications</h1></div>
-	<div align="center">
-		<input class="nav-link" type="button" name="b1" value="Next" onclick="location.href='http://localhost:8080/barchart.html'">
+	<div align="center" style="background-color:#32aeb3;"><h1>US Visa Applications</h1></div>
+	<div align="center" valign="top">
+		<table valign="top">
+			<tr>
+				<td><input class="nav-link" type="button" name="b3" value="About the Visualization" onclick="location.href='http://localhost:8080/About.html'"></td>
+				<td><input class="nav-link" type="button" name="b1" value="Slide 1" disabled="true" onclick="location.href='http://localhost:8080/newmap.html'"></td>
+				<td><input class="nav-link" type="button" name="b2" value="Slide 2" onclick="location.href='http://localhost:8080/barchart.html'"></td>
+				<td><input class="nav-link" type="button" name="b3" value="Slide 3" onclick="location.href='http://localhost:8080/bubble.html'"></td>
+			</tr>
+			
+		</table>
 	</div>
 </div> 
+<div align="center"><h2>Top 20 Countries of Applicants</div>
 <table width="100%" align="centre" valign="top">
+	 
 	<tr>
-		<td width="75%" align="centre" >
+		<td width="75%" align="centre" valign="top">
+			
 			<div  align="centre">
-			<svg  align="centre" id='map' class='svg'></svg>
+				<svg  align="centre" id='map' class='svg'></svg>
 			</div>
 		</td>
-		 <td><div class="category">These are the top 20 countries were visa applicants originate from. <br> Select a country to view their top destinatations in the US.</div>
+		 <td><div class="category">This visualization is designed to provide insight into the location of visa applicants in the US. Select a country to view their top destinatations in the US.</div>
 		 </td>
 	</tr>
 </table>
@@ -200,7 +221,7 @@ div.category {
 <script>
 
 var margin = {top:10, left:10, right: 10, bottom:10},
-	height = 1000-margin.top-margin.bottom,
+	height = 900-margin.top-margin.bottom,
 	width=	1300-margin.left-margin.right,
     active = d3.select(null);
 
@@ -213,7 +234,7 @@ var zoom = d3.zoom()
 
 var projection = d3.geoMercator()
 	.translate([width/2, height/2 ])
-	.scale(150)
+	.scale(140)
 	
 var sfx =projection(sf)[0];	
 var sfy =projection(sf)[1];	
@@ -223,7 +244,6 @@ var svg = d3.select("#map")
 			.attr("height", height+margin.top+margin.bottom)
 			.attr("width", width+margin.left+margin.right)
 			.attr("class","svg")
-
 			.append('g')
 			.attr("transform","translate(" + margin.left + "," + margin.top + ")");
 			
@@ -282,8 +302,8 @@ var div = d3.select("body").append("div")
 function clicked(d) {
 
   if (active.node() === this) return reset();
-  active.classed("active", false);
-  active = d3.select("#UNITED STATES OF AMERICA").classed("active",true);
+  active.classed("countries", false);
+  active = d3.select("#USA").classed("active",true);
     
   svg.transition()
 	  .delay(3000)
@@ -322,22 +342,25 @@ function stopped() {
 }
 
 function ready(error, data, paths){
-	
-	var countries=topojson.feature(data,data.objects.countries1).features;
- 	
-	var commodities = ["PAKISTAN","FRANCE","NEPAL","JAPAN","BRAZIL","VENEZUELA","TURKEY","RUSSIA"]
-	var commodities2 = ["INDIA","CHINA","S-KOREA","CANADA","MEXICO","PHILIPPINES","UK","TAIWAN"];
-	var commodities3 = ["GERMANY","IRAN","VIETNAM","ITALY"]
- 	g1.selectAll(".country")
-		.data(countries)
-		.enter().append("path")
-		.attr("class", "country")
-		.attr("d",path)
-		.attr("id",function(d) { return (d.properties.name.toUpperCase()); })
-		.on("click", clicked)
-		;
+	var commodities = ["9 PAKISTAN","10 FRANCE","11 NEPAL","12 JAPAN","13 BRAZIL","14 VENEZUELA","15 TURKEY","16 RUSSIA"]
+	var commodities2 = ["1 INDIA","2 CHINA","3 S-KOREA","4 CANADA","5 MEXICO","6 PHILIPPINES","7 UK","8 TAIWAN"];
+	var commodities3 = ["17 GERMANY","18 IRAN","19 VIETNAM","20 ITALY"]
+		 
+	d3.json("/Json/world-110m.geojson", function(err, geojson) {
+		  
+		var features=geojson.features
 		
-	d3.select("#ANTARCTICA").remove()
+		g1.selectAll(".country")
+			.data(features)
+			.enter().append("path")
+			.attr("class", "country")
+			.attr("d",path)
+			.attr("id",function(d) { return (d.properties.name.toUpperCase()); })
+			.on("click", clicked)
+			;
+	 });	
+
+	g1.select("#ANTARCTICA").remove()
 			 
 	g2.selectAll("circle").data(paths).enter().append("circle")
 		.attr("r",3)
@@ -446,6 +469,7 @@ function ready(error, data, paths){
 // Draw a set of routes 
 var previousSelected;
 function drawCountry(country) {
+			country = country.split(" ")[1]
 			zoom.transform(svg, d3.zoomIdentity);
 			g2.selectAll("circle").transition().style('opacity',1);
 			g2.selectAll("text").transition().style('opacity',1);
@@ -456,7 +480,7 @@ function drawCountry(country) {
 			previousSelected=country
 		
 			
-			d3.csv(country + ".csv", function (error, routes) {
+			d3.csv("/CSV/"+country + ".csv", function (error, routes) {
 			//var maxVolume = d3.max(routes, function(d) { return d.Count; });		
 			//var line = d3.line().curve(d3.curveBasis);
 			 

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+h1{
+    font-family: 'Amatic SC', cursive;
+    font-weight: normal;
+    color: white;
+    font-size: 3.5em;
+}
+h2{
+    font-family: 'Amatic SC', cursive;
+    font-weight: normal;
+    color: Black;
+    font-size: 2.2em;
+}
+body {
+   font-family: 'Amatic SC', cursive;
+   font-size: 0.8em;
+}
+.country {
+  fill: #32aeb3;
+  stroke: white;
+  stroke-width: 0.6px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+ 
+}
+
+.border {
+  fill: none;
+  stroke: #fff;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.bubble {
+	fill: #ffff30; stroke:#ffff7f;
+  stroke-width: 0.5px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.bubble1 {
+  fill: #ffd907; stroke:#d8b429;
+  stroke-width: 1px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  cursor: pointer;
+}
+.svg {
+	background: white;
+	margin-left:auto; 
+	margin-right:auto; 
+	display:block;
+	align: center;
+}
+
+.selected {
+	fill: #ffd907;
+}
+
+.states path {
+		stroke-width: 1px;
+		stroke: white;
+		fill: #DBDBDB;
+		cursor: pointer;
+}
+.arcs {
+	  stroke-width: 0.3px;
+	  stroke: tomato;
+	  pointer-events: none;
+	  fill: none;
+}
+
+.line {
+	  stroke-width: 0.3px;
+	  stroke: tomato;
+	  
+	  
+}
+.font-weight-bold {
+  font-weight: 700 !important;
+}
+.commodityButton {
+  font-family: 'Amatic SC', cursive;
+  font-color: black;
+  font-weight: 700;
+  color: #28a745;
+  border-color: #6f42c1;
+  cursor:pointer; font-family:Arial; font-size: 14px;
+
+}
+
+.commodityButton:hover {
+  color: #fff;
+  background-color: #28a745;
+  border-color: #6f42c1;
+}
+
+.commodityLabel, .port-label  { 
+ font-family: 'Amatic SC', cursive;
+   font-color: black;
+  cursor:pointer;  font-size: 1.2em;
+ 
+}
+
+.countryLabel { 
+   font-color: black;
+    font-family: 'Amatic SC', cursive; font-size: 9px; 
+}
+
+.annotationButton, .annotationLabel { 
+  font-color: black;
+  background-color: white;
+  border-color:red;
+  cursor:pointer;  font-family: 'Amatic SC', cursive; font-size: 9px; 
+}
+
+
+
+.route { fill: none; stroke: orangered; stroke-width: 0.8px; }
+.port { fill: #8c6bb1; stroke:#084081; stroke-width: 2px; }	
+.source-port { fill: #fdae6b; stroke:#d94801; stroke-width: 2px; }
+
+.country-on{
+  fill: #4B5358;   /* highlight colour for selected country */
+}
+
+div{
+	width:100%;
+	height:100%;
+}
+div.tooltip {   
+  position: absolute;           
+  text-align: center;           
+  width: 100px;                  
+  height: 100px;                 
+  padding: 4px;    
+  font-family: 'Amatic SC', cursive;  
+  font: 12px ;        
+  background: white;   
+  border: 0px;      
+  border-radius: 5px;           
+  pointer-events: none;  
+  font-size: 1.2em;  
+}
+
+
+.nav-link {
+  display: block;
+  padding: 0.5rem 1rem;
+}
+
+.nav-link:focus, .nav-link:hover {
+  text-decoration: none;
+}
+
+.nav-link.disabled {
+  color: #868e96;
+}
+
+.commodityButton:hover {
+  stroke: #000;
+  stroke-width: 1.5px;
+  fill: #ffd907;
+  background-color: #e2e6ea;
+  border-color: #dae0e5;
+}
+
+div.category {
+    -moz-border-radius: 8px;
+    display: block;
+    background: white;
+    overflow: hidden;
+    width: 80%;
+    text-align:left;
+    border:1px dashed blue;
+	align: left; 
+	 font-size: 1.5em;  
+	 line-height: 1.5;
+	  font-family: 'Amatic SC', cursive;  
+	  padding: 10px; 
+}
+</style>
+<body align="centre">
+<script src="//d3js.org/d3.v4.min.js" charset="utf-8"></script>
+
+<div align="center">
+	<div align="center" style="background-color:#32aeb3;"><h1>US Visa Applications</h1></div>
+	<div align="center" valign="top">
+		<table valign="top">
+			<tr>
+				
+				<td><input class="nav-link" type="button" name="b1" value="Slide 1" onclick="location.href='http://localhost:8080/newmap.html'"></td>
+				<td><input class="nav-link" type="button" name="b2" value="Slide 2" onclick="location.href='http://localhost:8080/barchart.html'"></td>
+				<td><input class="nav-link" type="button" name="b3" value="Slide 3" onclick="location.href='http://localhost:8080/bubble.html'"></td>
+			</tr>
+			
+		</table>
+	</div>
+</div> 
+<div align="center"><h2>About the Visualization</div>
+<div  align="center" >
+<div align="center" class ="category">
+<b>Hybrid structure</b><br>
+This interactive story of US Visa Applications follows a Martini Glass narrative style visualization.<br><br>
+We first begin by exploring the data from a high level by examining the origin and destination of applicants. In particular the focus in on the Top 20 Countries with the highest number of applications. We see popular destinations that applicants will be based at should their application be successful.<br><br>
+A general pattern of migration is observed, with people heading either to the West Coast, East Coast or Texas.  Questions such as what are the deciding factors for these patterns arise.<br>
+The user has the ability to select one of the Top 20 countries and the data changes as a result of this selection. The user is however constrained by the author-driven type of information presented.<br><br>
+The bar chart in the proceeding slide is purely author driven. It presents a chart showing the percentage per State of the Total Applications received. It clearly highlights using annotation that California is by far the most popular destination State in applications.<br><br>
+Finally the story ends with the bubble chart where the user is able to explore the data more interactively. This is achieved in two ways:<br>
+•	 A drop-down selection of States is provided so the user can filter the information.<br>
+•	 A drill down capability to take a deeper look at the statistics for a State and Job Category.<br>
+
+The user is able to decide the path they would like to follow through this interaction. Thereby completing the Martini Glass structure for this narrative.<br><br>
+
+<b>Use of Scenes</b></b><br>
+This visualization consists of 3 scenes. Scenes are Numbered 1 to 3 and navigation is via buttons at the top of every slide.<br><br>
+
+<b>Annotations</b></b><br>
+The map and bar charts are clearly annotated drawing attention to cities and states of interest respectively.<br><br>
+<b>Parameters</b><br>
+Scene 1:<br>
+•	 A selection of filters for Countries is provided so the user can filter the information.<br><br>
+
+Scene 3:<br>
+•	 A drop-down selection of States is provided so the user can filter the information.<br>
+•	 A drill down capability to take a deeper look at the statistics for a State and Job Category.<br><br>
+
+<b>Triggers</b><br>
+Scene 1:<br>
+•	 A change to the selection of filters for Countries changes the scene depiction and annotations.<br><br>
+
+Scene 3:</b><br>
+•	 A change in drop-down selection of States changes the information displayed.<br>
+•	 A drill down capability changes the level of granularity that the information is displayed at.<br>
+</div>
+ </div>
+	
+</script>
