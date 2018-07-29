@@ -113,6 +113,9 @@ var margin = {top: 40, right: 20, bottom: 30, left: 40},
     width = 960 - margin.left - margin.right,
     height = 600 - margin.top - margin.bottom;
 
+var svg = d3.select("svg").append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	
 var formatPercent = d3.format(".0%");
 
 	
@@ -131,9 +134,6 @@ var yAxis = d3.svg.axis()
     .orient("left")
     .tickFormat(formatPercent);
 
-
-var svg = d3.select("svg").append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
  var tooltip = d3.select("body").append("div")   
     .attr("class", "tooltip")               
