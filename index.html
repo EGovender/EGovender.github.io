@@ -211,7 +211,7 @@ div.category {
 		<td width="50%" height="100%" align="centre" valign="top">
 			
 			<div  align="centre" valign="top">
-				<svg width="1100" height="1300" name="map" id="map"></svg>
+				<svg width="1200" height="700" name="map" id="map"></svg>
 			</div>
 		</td>
 		 <td><div align="left" valign="top">This visualization is designed to provide insight into the location of visa applicants in the US. Select a country to view their top destinatations in the US.</div>
@@ -241,7 +241,7 @@ var zoom = d3.zoom()
 
 var projection = d3.geoMercator()
 	.translate([width/2, height/2 ])
-	.scale(130)
+	.scale(140)
 	
 var sfx =projection(sf)[0];	
 var sfy =projection(sf)[1];	
@@ -403,7 +403,7 @@ function ready(){
 			.enter()
 			.append("rect")
 			.attr("x", function(d,i) { return i * 120 + 40} )
-			.attr("y", 20)
+			.attr("y",0)
 			.attr("rx",5).attr("ry",5).attr("width",100).attr("height",40)
 			.attr("fill","#e2e6ea").attr("stroke","#999")
 			.attr("class","commodityButton")
@@ -414,7 +414,7 @@ function ready(){
 			.data(commodities2).enter()
 			.append("text")
 			.attr("x",function (d,i) { return i * 120 + 90} )
-			.attr("y",45)
+			.attr("y",25)
 			.attr("text-anchor","middle")
 			.text(function(d) { return d; })
 			.attr("class","commodityLabel")
@@ -427,7 +427,7 @@ function ready(){
 			.enter()
 			.append("rect")
 			.attr("x", function(d,i) { return i * 120 + 40} )
-			.attr("y", 70)
+			.attr("y", 50)
 			.attr("rx",5).attr("ry",5).attr("width",100).attr("height",40)
 			.attr("fill","#e2e6ea").attr("stroke","#999")
 			.attr("class","commodityButton")
@@ -438,7 +438,7 @@ function ready(){
 			.data(commodities).enter()
 			.append("text")
 			.attr("x",function (d,i) { return i * 120 + 90} )
-			.attr("y",95)
+			.attr("y",75)
 			.attr("text-anchor","middle")
 			.text(function(d) { return d; })
 			.attr("class","commodityLabel")
@@ -451,7 +451,7 @@ function ready(){
 			.enter()
 			.append("rect")
 			.attr("x", function(d,i) { return i * 120 + 40} )
-			.attr("y", 120)
+			.attr("y", 100)
 			.attr("rx",5).attr("ry",5).attr("width",100).attr("height",40)
 			.attr("fill","#e2e6ea")
 			.attr("stroke","#999")
@@ -464,7 +464,7 @@ function ready(){
 			.data(commodities3).enter()
 			.append("text")
 			.attr("x",function (d,i) { return i * 120 + 90} )
-			.attr("y",145)
+			.attr("y",125)
 			.attr("text-anchor","middle")
 			.text(function(d) { return d; })
 			.attr("class","commodityLabel")
