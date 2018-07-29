@@ -2,19 +2,19 @@
 <meta charset="utf-8">
 <style>
 h1{
-    font-family: 'Amatic SC', cursive;
+    font-family: Arial;
     font-weight: normal;
     color: white;
     font-size: 3.5em;
 }
 h2{
-    font-family: 'Amatic SC', cursive;
+    font-family:Arial;
     font-weight: normal;
     color: Black;
     font-size: 2.2em;
 }
 body {
-   font-family: 'Amatic SC', cursive;
+   font-family:Arial;
    font-size: 0.8em;
 }
 .country {
@@ -84,7 +84,7 @@ body {
   font-weight: 700 !important;
 }
 .commodityButton {
-  font-family: 'Amatic SC', cursive;
+  font-family:Arial;
   font-color: black;
   font-weight: 700;
   color: #28a745;
@@ -100,7 +100,7 @@ body {
 }
 
 .commodityLabel, .port-label  { 
- font-family: 'Amatic SC', cursive;
+ font-family:Arial;
    font-color: black;
   cursor:pointer;  font-size: 1.2em;
  
@@ -108,14 +108,14 @@ body {
 
 .countryLabel { 
    font-color: black;
-    font-family: 'Amatic SC', cursive; font-size: 9px; 
+    font-family:Arial; font-size: 9px; 
 }
 
 .annotationButton, .annotationLabel { 
   font-color: black;
   background-color: white;
   border-color:red;
-  cursor:pointer;  font-family: 'Amatic SC', cursive; font-size: 9px; 
+  cursor:pointer;  font-family:Arial; font-size: 9px; 
 }
 
 
@@ -138,7 +138,7 @@ div.tooltip {
   width: 100px;                  
   height: 100px;                 
   padding: 4px;    
-  font-family: 'Amatic SC', cursive;  
+  font-family:Arial;  
   font: 12px ;        
   background: white;   
   border: 0px;      
@@ -180,7 +180,7 @@ div.category {
 	align: left; 
 	 font-size: 1.5em;  
 	 line-height: 1.5;
-	  font-family: 'Amatic SC', cursive;  
+	  font-family:Arial;  
 	  padding: 5px; 
 }
 </style>
@@ -283,7 +283,7 @@ svg.call(zoom);
 
 d3.queue()
   
-  .defer(d3.csv,"\CSV\top20.csv")
+  .defer(d3.csv,"CSV\top20.csv")
   .await(ready)
 
 
@@ -480,7 +480,7 @@ function drawCountry(country) {
 			previousSelected=country
 		
 			
-			d3.csv("/CSV/"+country + ".csv", function (error, routes) {
+			d3.csv("CSV\"+country + ".csv", function (error, routes) {
 			//var maxVolume = d3.max(routes, function(d) { return d.Count; });		
 			//var line = d3.line().curve(d3.curveBasis);
 			 
