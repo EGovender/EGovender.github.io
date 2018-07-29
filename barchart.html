@@ -3,19 +3,19 @@
  
 <style>
 h1{
-    font-family: 'Amatic SC', cursive;
+    font-family:Arial;
     font-weight: normal;
     color: white;
     font-size: 3.5em;
 }
 h2{
-    font-family: 'Amatic SC', cursive;
+    font-family:Arial;
     font-weight: normal;
     color: Black;
     font-size: 2.2em;
 }
 body {
-   font-family: 'Amatic SC', cursive;
+   font-family:Arial;
    font-size: 0.8em;
 }
 
@@ -44,7 +44,7 @@ div.tooltip {
   width: 100px;                  
   height: 60px;                 
   padding: 4px; 
- font-family: 'Amatic SC', cursive;  	
+ font-family:Arial;  	
   font: 10px;        
   background: white;   
   border: 1px;    
@@ -191,7 +191,7 @@ line.append("text")
 		.text("California is twice as popular as Texas. ")
 		;			
 		
-d3.csv("\CSV\top20states.csv", function (error, data){
+d3.csv("top20states.csv", function (error, data){
 
   x.domain(data.map(function(d) { return d.State; }));
   y.domain([0, d3.max(data, function(d) { return d.Percentage/100; })]);
