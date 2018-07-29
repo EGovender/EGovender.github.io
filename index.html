@@ -214,8 +214,8 @@ div.category {
 				<svg width="1200" height="700" name="map" id="map"></svg>
 			</div>
 		</td>
-		 <td><div align="left" valign="top">This visualization is designed to provide insight into the location of visa applicants in the US. Select a country to view their top destinatations in the US.</div>
-			<div   align="left" valign="top">Countries Ranked by Application Count<br>1. INDIA<br>2. CHINA<br>3. S-KOREA<br>4. CANADA<br>5. MEXICO<br>6.PHILIPPINES<br>7. UK<br>8. TAIWAN<br>9. PAKISTAN<br>10. FRANCE<br>11. NEPAL<br>12. JAPAN<br>13. BRAZIL<br>14. VENEZUELA<br>15. TURKEY<br>16. RUSSIA<br>17. GERMANY<br>18. IRAN<br>19. VIETNAM<br>20. ITALY
+		 <td> 
+			<div align="left" valign="top">This visualization is designed to provide insight into the location of visa applicants in the US. Select a country to view their top destinatations in the US.<br><br>Countries Ranked by Application Count<br><br>1. INDIA<br>2. CHINA<br>3. S-KOREA<br>4. CANADA<br>5. MEXICO<br>6.PHILIPPINES<br>7. UK<br>8. TAIWAN<br>9. PAKISTAN<br>10. FRANCE<br>11. NEPAL<br>12. JAPAN<br>13. BRAZIL<br>14. VENEZUELA<br>15. TURKEY<br>16. RUSSIA<br>17. GERMANY<br>18. IRAN<br>19. VIETNAM<br>20. ITALY
 			</div>
 			
 		 </td>
@@ -419,7 +419,7 @@ function ready(){
 			.text(function(d) { return d; })
 			.attr("class","commodityLabel")
 			.on("click",reset())
-			.on("click",function(d) { replaceCountry(d);  });
+			.on("click",function(d) {clicked; replaceCountry(d);  });
 			
 			//2 Add some buttons
 		g4.selectAll(".commodityButton")
@@ -443,7 +443,7 @@ function ready(){
 			.text(function(d) { return d; })
 			.attr("class","commodityLabel")
 			.on("click",reset())
-			.on("click",function(d) { replaceCountry(d);  });	
+			.on("click",function(d) { clicked;replaceCountry(d);  });	
 		// Start with a set of routes
 		
 		g5.selectAll(".commodityButton")
@@ -469,7 +469,7 @@ function ready(){
 			.text(function(d) { return d; })
 			.attr("class","commodityLabel")
 			.on("click",reset())
-			.on("click",function(d) { replaceCountry(d);  });	
+			.on("click",function(d) { clicked;replaceCountry(d);  });	
 		// Start with a set of routes
 	});
 	//drawCountry("INDIA");
