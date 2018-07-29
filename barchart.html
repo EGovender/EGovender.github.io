@@ -100,7 +100,11 @@ div{
 		</table>
 	</div>
 </div> 
-<div align="center"><h2>Percentage of Total Applicants Versus State</h2></div>
+<div align="center"><h2>Percentage of Total Applicants Versus Top 20 State</h2></div>
+<table align="center">
+	<tr align ="top"><td><svg width="1000" height="800"></svg></td><td align ="top">
+	</td></tr>
+</table>
 
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script>
@@ -128,12 +132,7 @@ var yAxis = d3.svg.axis()
     .tickFormat(formatPercent);
 
 
-var svg = d3.select("body").append("svg")
-	.attr("align","top")
-	.attr("class","svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom+100)
-  .append("g")
+var svg = d3.select("svg").append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
  var tooltip = d3.select("body").append("div")   
@@ -251,4 +250,4 @@ d3.csv("top20states.csv", function (error, data){
 
 
 </script>
- </body>
+</body>
