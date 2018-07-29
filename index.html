@@ -282,8 +282,8 @@ gradient.append("stop")
 svg.call(zoom); 
 
 d3.queue()
-  .defer(d3.json,"world-countries.topojson")
-  .defer(d3.csv,"top20.csv")
+  .defer(d3.json,'world-countries.topojson')
+  .defer(d3.csv,'top20.csv')
   .await(ready)
 
 
