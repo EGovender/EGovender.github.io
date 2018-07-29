@@ -50,11 +50,13 @@ body {
   cursor: pointer;
 }
 .svg {
-	background: white;
+	background: black;
 	margin-left:auto; 
 	margin-right:auto; 
 	display:block;
 	align: center;
+	width:100%;
+	height:100%;
 }
 
 .selected {
@@ -90,7 +92,7 @@ body {
   color: #28a745;
   border-color: #6f42c1;
   cursor:pointer; font-family:Arial; font-size: 14px;
-
+  width="80%";
 }
 
 .commodityButton:hover {
@@ -102,7 +104,7 @@ body {
 .commodityLabel, .port-label  { 
  font-family:Arial;
    font-color: black;
-  cursor:pointer;  font-size: 1.2em;
+  cursor:pointer;  font-size: 0.9em;
  
 }
 
@@ -167,18 +169,19 @@ div.tooltip {
   fill: #ffd907;
   background-color: #e2e6ea;
   border-color: #dae0e5;
+ 
 }
 
 div.category {
     -moz-border-radius: 8px;
-    display: block;
+   
     background: white;
     overflow: hidden;
-    width: 300px;
+    width: 500px;
     text-align:left;
     border:1px dashed blue;
 	align: left; 
-	 font-size: 1.5em;  
+	 font-size: 0.9em;  
 	 line-height: 1.5;
 	  font-family:Arial;  
 	  padding: 5px; 
@@ -202,16 +205,19 @@ div.category {
 	</div>
 </div> 
 <div align="center"><h2>Top 20 Countries of Applicants</div>
-<table width="100%" align="centre" valign="top">
+<table width="100%" height="100%"  align="centre" valign="top">
 	 
 	<tr>
-		<td width="75%" align="centre" valign="top">
+		<td width="50%" height="100%" align="centre" valign="top">
 			
-			<div  align="centre">
-				<svg  align="centre" id='map' class='svg'></svg>
+			<div  align="centre" valign="top">
+				<svg width="1100" height="1300" name="map" id="map"></svg>
 			</div>
 		</td>
-		 <td><div class="category">This visualization is designed to provide insight into the location of visa applicants in the US. Select a country to view their top destinatations in the US.</div>
+		 <td><div class="category"   align="left" valign="top">This visualization is designed to provide insight into the location of visa applicants in the US. Select a country to view their top destinatations in the US.</div>
+			<div class="category" align="left" valign="top">Countries Ranked by Application Count<br>1. INDIA<br>2. CHINA<br>3. S-KOREA<br>4. CANADA<br>5. MEXICO<br>6.PHILIPPINES<br>7. UK<br>8. TAIWAN<br>9. PAKISTAN<br>10. FRANCE<br>11. NEPAL<br>12. JAPAN<br>13. BRAZIL<br>14. VENEZUELA<br>15. TURKEY<br>16. RUSSIA<br>17. GERMANY<br>18. IRAN<br>19. VIETNAM<br>20. ITALY
+			</div>
+			
 		 </td>
 	</tr>
 </table>
@@ -221,20 +227,21 @@ div.category {
 <script>
 
 var margin = {top:10, left:10, right: 10, bottom:10},
-	height = 900-margin.top-margin.bottom,
-	width=	1300-margin.left-margin.right,
+	height = 800-margin.top-margin.bottom,
+	width=	1200-margin.left-margin.right,
+    active = d3.select(null);
     active = d3.select(null);
 
  
-var sf = [-100.484246 ,-250.0119];
+var sf = [-110.484246 ,39.0119];
 
 var zoom = d3.zoom()
-    .scaleExtent([1, 1])
+    .scaleExtent([1.7, 1.7])
     .on("zoom", zoomed);
 
 var projection = d3.geoMercator()
 	.translate([width/2, height/2 ])
-	.scale(40)
+	.scale(130)
 	
 var sfx =projection(sf)[0];	
 var sfy =projection(sf)[1];	
@@ -251,7 +258,7 @@ var svg = d3.select("#map")
      		
  
 // Create a few groups to layer elements correctly
-var g1 = svg.append("g"); 
+var g1 = svg.append("g") ;
 var g2 = svg.append("g"); 
 var g3 = svg.append("g"); 
 var g4 = svg.append("g"); 
@@ -279,7 +286,7 @@ gradient.append("stop")
    .attr("stop-opacity", 1);
 
    
-//svg.call(zoom); 
+svg.call(zoom); 
 
 
 var path = d3.geoPath()
@@ -306,7 +313,7 @@ function clicked(d) {
   svg.transition()
 	  .delay(3000)
       .duration(3000)
-      .call( zoom.transform, d3.zoomIdentity.translate(sf[0],sf[1]).scale(2) ); // updated for d3 v4
+      .call( zoom.transform, d3.zoomIdentity.translate(sf[0],sf[1]).scale(2.5) ); // updated for d3 v4
 		
   g1.selectAll(".route")
 		.transition()
@@ -395,9 +402,9 @@ function ready(){
 			.data(commodities2)
 			.enter()
 			.append("rect")
-			.attr("x", function(d,i) { return i * 140 + 90} )
-			.attr("y", 10)
-			.attr("rx",5).attr("ry",5).attr("width",130).attr("height",50)
+			.attr("x", function(d,i) { return i * 120 + 40} )
+			.attr("y", 20)
+			.attr("rx",5).attr("ry",5).attr("width",100).attr("height",40)
 			.attr("fill","#e2e6ea").attr("stroke","#999")
 			.attr("class","commodityButton")
 			.on("click",function(d) {clicked;replaceCountry(d);})
@@ -406,7 +413,7 @@ function ready(){
 		g3.selectAll(".commodityLabel")
 			.data(commodities2).enter()
 			.append("text")
-			.attr("x",function (d,i) { return i * 140 + 155} )
+			.attr("x",function (d,i) { return i * 120 + 90} )
 			.attr("y",45)
 			.attr("text-anchor","middle")
 			.text(function(d) { return d; })
@@ -419,9 +426,9 @@ function ready(){
 			.data(commodities)
 			.enter()
 			.append("rect")
-			.attr("x", function(d,i) { return i * 140 + 90} )
+			.attr("x", function(d,i) { return i * 120 + 40} )
 			.attr("y", 70)
-			.attr("rx",5).attr("ry",5).attr("width",130).attr("height",50)
+			.attr("rx",5).attr("ry",5).attr("width",100).attr("height",40)
 			.attr("fill","#e2e6ea").attr("stroke","#999")
 			.attr("class","commodityButton")
 			.on("click",function(d) {clicked;replaceCountry(d);})
@@ -430,8 +437,8 @@ function ready(){
 		g4.selectAll(".commodityLabel")
 			.data(commodities).enter()
 			.append("text")
-			.attr("x",function (d,i) { return i * 140 + 155} )
-			.attr("y",100)
+			.attr("x",function (d,i) { return i * 120 + 90} )
+			.attr("y",95)
 			.attr("text-anchor","middle")
 			.text(function(d) { return d; })
 			.attr("class","commodityLabel")
@@ -443,9 +450,9 @@ function ready(){
 			.data(commodities3)
 			.enter()
 			.append("rect")
-			.attr("x", function(d,i) { return i * 140 + 90} )
-			.attr("y", 130)
-			.attr("rx",5).attr("ry",5).attr("width",130).attr("height",50)
+			.attr("x", function(d,i) { return i * 120 + 40} )
+			.attr("y", 120)
+			.attr("rx",5).attr("ry",5).attr("width",100).attr("height",40)
 			.attr("fill","#e2e6ea")
 			.attr("stroke","#999")
 			.attr("class","commodityButton")
@@ -456,8 +463,8 @@ function ready(){
 		g5.selectAll(".commodityLabel")
 			.data(commodities3).enter()
 			.append("text")
-			.attr("x",function (d,i) { return i * 140 + 155} )
-			.attr("y",160)
+			.attr("x",function (d,i) { return i * 120 + 90} )
+			.attr("y",145)
 			.attr("text-anchor","middle")
 			.text(function(d) { return d; })
 			.attr("class","commodityLabel")
@@ -716,7 +723,7 @@ console.log(country);
 					svg.transition()
 					  .delay(3000)
 					  .duration(4000)
-					  .call( zoom.transform, d3.zoomIdentity.translate(sf[0],sf[1]).scale(2) ); // updated for d3 v4
+					  .call( zoom.transform, d3.zoomIdentity.translate(sf[0],sf[1]).scale(1.5) ); // updated for d3 v4
 		});
 
 		arrangeLabels();
