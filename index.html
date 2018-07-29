@@ -283,7 +283,7 @@ svg.call(zoom);
 
 d3.queue()
   
-  .defer(d3.csv,"CSV\top20.csv")
+  .defer(d3.csv,"https://egovender.github.io/CSV/top20.csv")
   .await(ready)
 
 
@@ -346,7 +346,7 @@ function ready(error, data, paths){
 	var commodities2 = ["1 INDIA","2 CHINA","3 S-KOREA","4 CANADA","5 MEXICO","6 PHILIPPINES","7 UK","8 TAIWAN"];
 	var commodities3 = ["17 GERMANY","18 IRAN","19 VIETNAM","20 ITALY"]
 		 
-	d3.json("Json\world-110m.geojson", function(err, geojson) {
+	d3.json('https://egovender.github.io/Json/world-110m.geojson', function(err, geojson) {
 		  
 		var features=geojson.features
 		
@@ -480,7 +480,7 @@ function drawCountry(country) {
 			previousSelected=country
 		
 			
-			d3.csv("CSV\"+country + ".csv", function (error, routes) {
+			d3.csv('https://egovender.github.io/CSV/'+country + '.csv', function (error, routes) {
 			//var maxVolume = d3.max(routes, function(d) { return d.Count; });		
 			//var line = d3.line().curve(d3.curveBasis);
 			 
